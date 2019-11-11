@@ -140,7 +140,7 @@ class Game
       
     if is_game_over?(figure, enemy)
       puts "#{enemy.name}, CHECKMATE for you!!! GAME OVER!!!"
-      return
+      return 'Game over'
     end
       
     puts "#{enemy.name}, CHECK for you!!!" if is_check?(figure, enemy)

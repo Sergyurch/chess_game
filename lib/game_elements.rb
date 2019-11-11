@@ -1,5 +1,3 @@
-require 'colorize'
-
 module GameFigure
   attr_accessor :x_coord, :y_coord, :team, :figure
   
@@ -91,9 +89,9 @@ class Board
         @cells["#{y}#{8-x}"] = Cell.new("#{8-x}", "#{y}")
         
         if ( x % 2 == 0 && ("aceg".include? y) ) || ( x % 2 != 0 && ("bdfh".include? y) )
-          @cells["#{y}#{8-x}"].color = :white
+          @cells["#{y}#{8-x}"].color = 'gray'
         else
-          @cells["#{y}#{8-x}"].color = :light_yellow
+          @cells["#{y}#{8-x}"].color = 'brown'
         end
         
         @cells["#{y}#{8-x}"].content = Pawn.new("#{y}", "#{8-x}", 'black') if x == 1
@@ -120,9 +118,9 @@ class Board
       
       for y in 'a'..'h'
         if @cells["#{y}#{8-x}"].content.instance_of? String
-          print @cells["#{y}#{8-x}"].content.colorize(:color => @cells["#{y}#{8-x}"].color, :background => @cells["#{y}#{8-x}"].color)
+          print colorize(@cells["#{y}#{8-x}"].content, @cells["#{y}#{8-x}"].color, @cells["#{y}#{8-x}"].color)
         else
-          print @cells["#{y}#{8-x}"].content.figure.colorize(:background => @cells["#{y}#{8-x}"].color)
+          print colorize(@cells["#{y}#{8-x}"].content.figure, 'dark gray', @cells["#{y}#{8-x}"].color)
         end
       end
       
@@ -130,5 +128,17 @@ class Board
     end
     
     puts '  a b c d e f g h  '
+  end
+  
+  def colorize(text, color = "default", bgColor = "default")
+    colors = {"default" => "38","black" => "30","red" => "31","green" => "32","brown" => "33", "blue" => "34", "purple" => "35",
+     "cyan" => "36", "gray" => "37", "dark gray" => "1;30", "light red" => "1;31", "light green" => "1;32", "yellow" => "1;33",
+      "light blue" => "1;34", "light purple" => "1;35", "light cyan" => "1;36", "white" => "1;37"}
+    bgColors = {"default" => "0", "black" => "40", "red" => "41", "green" => "42", "brown" => "43", "blue" => "44",
+     "purple" => "45", "cyan" => "46", "gray" => "47", "dark gray" => "100", "light red" => "101", "light green" => "102",
+     "yellow" => "103", "light blue" => "104", "light purple" => "105", "light cyan" => "106", "white" => "107"}
+    color_code = colors[color]
+    bgColor_code = bgColors[bgColor]
+    return "\033[#{bgColor_code};#{color_code}m#{text}\033[0m"
   end
 end

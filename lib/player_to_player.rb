@@ -43,7 +43,7 @@ module PlayerToPlayer
       
       pawn_to_queen(figure, coordinates_to)
       puts "#{@current_turn.name} moved #{figure.class.to_s} from #{coordinates_from} to #{coordinates_to}"
-      commit_changes(coordinates_from, coordinates_to)
+      return if commit_changes(coordinates_from, coordinates_to) == 'Game over'
     end
   end
 end
